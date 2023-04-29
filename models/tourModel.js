@@ -102,11 +102,7 @@ tourSchema.virtual('durationWeeks').get(function() {
   // to access duration and arrow function don't have it's own this keyword
 });
 // DOCUMENT MIDDLEWARE: runs before .save() and .create() command but not before .insertMany
-tourSchema.pre('save', function(next) {
-  this.slug = slugify(this.name, { lower: true });
-  // here this keyword points to currently processed document and we are defining new property to the document
-  next();
-});
+
 
 // tourSchema.pre('save', function(next) {
 //  console.log("Will save document");
@@ -135,11 +131,6 @@ tourSchema.post(/^find/, function(doc, next) {
 // this middleware function will run after every function that starts with find is executed like find,findOne,etc.
 // and it has access to cuurent document
 
-tourSchema.pre('aggregate', function(next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  // here this keyword refers to current aggregate object
-  next();
-});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
